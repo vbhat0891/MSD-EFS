@@ -54,7 +54,7 @@ def customer_new(request):
            customer = form.save(commit=False)
            customer.created_date = timezone.now()
            customer.save()
-           customers= Customer.objects.filter(created_date=timezone.now())
+           customers= Customer.objects.filter(created_date__lte=timezone.now())
            return render(request, 'portfolio/customer_list.html',
                          {'customers': customers})
    else:
@@ -173,10 +173,12 @@ def portfolio(request,pk):
    investments =Investment.objects.filter(customer=pk)
    stocks = Stock.objects.filter(customer=pk)
    sum_acquired_value = Investment.objects.filter(customer=pk).aggregate(Sum('acquired_value'))
+   sum_recent_value = Investment.objects.filter(customer=pk).aggregate(Sum('recent_value'))
    sum_purchase_value= Stock.objects.filter(customer=pk).aggregate(total=Sum(F('purchase_price')*F('shares') ) )['total']
 
 
    return render(request, 'portfolio/portfolio.html', {'customers': customers, 'investments': investments,
                                                       'stocks': stocks,
                                                       'sum_acquired_value': sum_acquired_value,
+                                                      'sum_recent_value': sum_recent_value,
                                                       'sum_purchase_value': sum_purchase_value,})
