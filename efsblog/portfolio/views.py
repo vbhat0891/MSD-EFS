@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from django.db.models import Sum
-from yahoo_finance import Share
 from django.db.models import F
 
 
@@ -156,7 +155,7 @@ def investment_edit(request, pk):
 def investment_delete(request, pk):
    investments = get_object_or_404(Investment, pk=pk)
    investments.delete()
-   investments = Investment.objects.filter(acquired_date_lte=timezone.now())
+   investments = Investment.objects.filter(acquired_date__lte=timezone.now())
    return render(request, 'portfolio/investment_list.html', {'investments': investments})
 
 
