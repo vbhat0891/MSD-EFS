@@ -1,0 +1,39 @@
+{% extends "portfolio/base.html" %}
+
+{% block content %}
+
+    <p><img src="http://careerdegreecollege.com/images/login.jpg" style="padding:10%"></p>
+    <table align="center">
+        <tr>
+            <td style="padding-left: 2%">
+    <form method="post" action="{% url 'login' %}" >
+        {% csrf_token %}
+         {% if form.errors %}
+        <p align="center">Your username and password didn't match. Please try again.</p>
+    {% endif %}
+        <table align="center">
+            <tr>
+                <td>{{ form.username.label_tag }}</td>
+                <td>{{ form.username }}</td>
+            </tr>
+            <tr>
+                <td>{{ form.password.label_tag }}</td>
+                <td>{{ form.password }}</td>
+            </tr>
+        </table>
+        <p align="center" style="padding-left: 2%; padding-top: 5%">
+        <input type="submit" value="login"/>
+        <input type="hidden" name="next" value="{{ next }}"/>
+        </p>
+    </form>
+    </td>
+            <td style="padding-top: 15%">
+    <form method="post" action="{% url 'password_reset' %}" style="padding-right: 75% ">
+        {% csrf_token %}
+    <input type="submit" value="Password Reset"/>
+        <input type="hidden" name="password_reset" value="{{ password_reset }}"/>
+    </form>
+            </td>
+        </tr>
+        </table>
+{% endblock %}
