@@ -153,17 +153,11 @@ def investment_edit(request, pk):
 
 @login_required
 def investment_delete(request, pk):
-   investments = get_object_or_404(Investment, pk=pk)
-   investments.delete()
+   investment = get_object_or_404(Investment, pk=pk)
+   investment.delete()
    investments = Investment.objects.filter(acquired_date__lte=timezone.now())
    return render(request, 'portfolio/investment_list.html', {'investments': investments})
 
-
-
-#def finance()
- #   print(st.symbol)
-  #  microsoft = Share('MSFT')
-   # return print(microsoft.get_price())
 
 @login_required
 def portfolio(request,pk):
